@@ -59,14 +59,14 @@ internal class CycleTransactionSendCommand : ICommand {
 				argumentValues[0]
 			);
 
-			if(initiatorKey.GetType() == typeof(NyzoStringPrivateSeed))) {
+			if(initiatorKey.GetType().IsInstanceOfType(typeof(NyzoStringPrivateSeed))) {
 				argumentResults.Add(
 					new ArgumentResult(true, NyzoStringEncoder.Encode(initiatorKey))
 				);
 			}
 
 			if(!argumentResults.Any()) {
-				string message = String.IsNullOrWhiteSpace(argumentValues[0]?.Trim()?.ToString() ?? "") ? "missing Nyzo string private key" : "not a valid Nyzo string private key";
+				string message = String.IsNullOrEmpty(argumentValues[0]?.Trim()?.ToString() ?? "") ? "missing Nyzo string private key" : "not a valid Nyzo string private key";
 				argumentResults.Add(
 					new ArgumentResult(false, argumentValues[0], message)
 				);
@@ -75,12 +75,12 @@ internal class CycleTransactionSendCommand : ICommand {
 			// Check the receiver ID
 			NyzoString.NyzoString receiverIdentifier = NyzoStringEncoder.Decode(argumentValues[1]);
 
-			if(receiverIdentifier.GetType() == typeof(NyzoStringPublicIdentifier)) {
+			if(receiverIdentifier.GetType().IsInstanceOfType(typeof(NyzoStringPublicIdentifier))) {
 				argumentResults.Add(
 					new ArgumentResult(true, NyzoStringEncoder.Encode(receiverIdentifier))	
 				);
 			} else {
-				string message = String.IsNullOrWhiteSpace(argumentValues[1]?.Trim()?.ToString() ?? "") ? "missing Nyzo string public ID" : "not a valid Nyzo string public ID";
+				string message = String.IsNullOrEmpty(argumentValues[1]?.Trim()?.ToString() ?? "") ? "missing Nyzo string public ID" : "not a valid Nyzo string public ID";
 				argumentResults.Add(
 					new ArgumentResult(false, argumentValues[0], message)	
 				);
